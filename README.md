@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RPG 適職診断
 
-## Getting Started
+## 仕様
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Page
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- /
+  - Top ページ。ここで診断の内容の説明から実際の診断まで完結させる。
+- /result
+  - 診断結果のページ。上部に画像。中部から下部にかけて診断結果のテキストを載せる。
+- /dashboard
+  - ID・Password を発行し、特定の人のみ閲覧できるようにする。
+  - 人事の人が見る用のページ。ここで診断を受けた従業員のソートやフィルターをしてカテゴリー別に閲覧できるようにしたりする。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### DB
 
-## Learn More
+- SpreadSheet
+  - 課金はあまり必要ない感じはする。
 
-To learn more about Next.js, take a look at the following resources:
+#### DB 候補
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Firebase](https://supabase.com/pricing)
+- [supabase](https://firebase.google.com/pricing?hl=ja)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+いずれも認証まで同一サービスで実現可能
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
