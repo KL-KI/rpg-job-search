@@ -4,7 +4,7 @@ import RadioItemSpacer from "@/app/_components/_top/_Diagnosis/_Form/Radio/Radio
 import RadioLabel from "@/app/_components/_top/_Diagnosis/_Form/Radio/RadioLabel";
 import RadioSpacer from "@/app/_components/_top/_Diagnosis/_Form/Radio/RadioSpacer";
 import { answerList } from "@/app/data/formData";
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 interface Props {
 	answerer: string;
@@ -12,6 +12,10 @@ interface Props {
 }
 
 const WhoIsAnswer = ({ answerer, setAnswerer }: Props) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setAnswerer(e.target.value);
+	};
+
 	return (
 		<FormItemSpacer>
 			<Label>経緯</Label>
@@ -24,7 +28,7 @@ const WhoIsAnswer = ({ answerer, setAnswerer }: Props) => {
 								type='radio'
 								value={answer.value}
 								checked={answer.value === answerer}
-								onChange={(e) => setAnswerer(e.target.value)}
+								onChange={handleChange}
 							/>
 							<RadioLabel key={answer.value}>{answer.value}</RadioLabel>
 						</RadioItemSpacer>
