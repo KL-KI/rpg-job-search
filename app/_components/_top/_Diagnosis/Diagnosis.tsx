@@ -25,11 +25,11 @@ const Diagnosis = () => {
 	const [nameKatakana, setNameKatakana] = useState("");
 	const [background, setBackground] = useState("");
 
-	const onSubmit = (data: any) => {
-		console.log(data);
-	};
+	// const onSubmit = (data: any) => {
+	// 	console.log(data);
+	// };
 
-	console.log(email, nameKanji, nameKatakana, background, onSubmit);
+	console.log(email, nameKanji, nameKatakana, background);
 
 	return (
 		<section className='w-[90%] mx-auto max-w-screen-sm'>
