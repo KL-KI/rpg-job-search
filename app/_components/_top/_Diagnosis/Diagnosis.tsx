@@ -257,6 +257,8 @@ const Diagnosis = () => {
 	] = useState(schema.emptyErrorMessage);
 	/*FIFTH SECTION END*/
 
+	const getIsAllAnswered = (checkStr: string) => {};
+
 	// LOG FORM DATA
 	console.log(
 		{
@@ -386,50 +388,62 @@ const Diagnosis = () => {
 			setEmailErrorMessage(schema.emptyErrorMessage);
 		}
 	};
-	const validateNameKanji = () => {
+	const validateNameKanji: () => boolean = () => {
 		if (nameKanji.length < schema.nameKanji.min.value) {
 			setNameKanjiErrorMessage(schema.nameKanji.min.message);
+			return false;
 		} else {
 			setNameKanjiErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateNameKatakana = () => {
+	const validateNameKatakana: () => boolean = () => {
 		if (nameKatakana.length < schema.nameKatakana.min.value) {
 			setNameKatakanaErrorMessage(schema.nameKatakana.min.message);
+			return false;
 		} else {
 			setNameKatakanaErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateBackground = (answerer: string) => {
+	const validateBackground: (answerer: string) => boolean = (answerer: string) => {
 		const answererIndex = schema.background.values.indexOf(answerer);
 		if (answererIndex < 0) {
 			setAnswererErrorMessage(schema.background.message);
+			return false;
 		} else {
 			setAnswererErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateOrganization = () => {
+	const validateOrganization: () => boolean = () => {
 		if (organization.length < schema.organization.min.value) {
 			setOrganizationErrorMessage(schema.organization.min.message);
+			return false;
 		} else {
 			setOrganizationErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateDepartment = () => {
+	const validateDepartment: () => boolean = () => {
 		if (department.length < schema.department.min.value) {
 			setDepartmentErrorMessage(schema.department.min.message);
+			return false;
 		} else {
 			setDepartmentErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateApplyOrganization = () => {
+	const validateApplyOrganization: () => boolean = () => {
 		if (applyOrganization.length < schema.applyOrganization.min.value) {
 			setApplyOrganizationErrorMessage(schema.applyOrganization.min.message);
+			return false;
 		} else {
 			setApplyOrganizationErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validatePhoneNumber = () => {
+	const validatePhoneNumber: () => boolean = () => {
 		const newPhoneRegExp = /^0[5789]0-?\d{4}-?\d{4}$/g;
 		const oldPhoneRegExp = /^\d{2,4}-?\d{2,4}-?\d{4}$/g;
 
@@ -438,267 +452,337 @@ const Diagnosis = () => {
 
 		if (!oldP || !newP) {
 			setPhoneNumberErrorMessage("電話番号を正しく入力してください");
+			return false;
 		} else {
 			setPhoneNumberErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateCanTalkStranger = () => {
+	const validateCanTalkStranger: () => boolean = () => {
 		if (isZeroLength(canTalkStranger)) {
 			setCanTalkStrangerErrorMessage(schema.canTalkStranger.message);
+			return false;
 		} else {
 			setCanTalkStrangerErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateCarePeopleComfortable = () => {
+	const validateCarePeopleComfortable: () => boolean = () => {
 		if (isZeroLength(carePeopleComfortable)) {
 			setCarePeopleComfortableErrorMessage(schema.carePeopleComfortable.message);
+			return false;
 		} else {
 			setCarePeopleComfortableErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateDoCreativeActivity = () => {
+	const validateDoCreativeActivity: () => boolean = () => {
 		if (isZeroLength(doCreativeActivity)) {
 			setDoCreativeActivityErrorMessage(schema.doCreativeActivity.message);
+			return false;
 		} else {
 			setDoCreativeActivityErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validatePrepareAdvance = () => {
+	const validatePrepareAdvance: () => boolean = () => {
 		if (isZeroLength(prepareAdvance)) {
 			setPrepareAdvanceErrorMessage(schema.prepareAdvance.message);
+			return false;
 		} else {
 			setPrepareAdvanceErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateFeelingDownDepressed = () => {
+	const validateFeelingDownDepressed: () => boolean = () => {
 		if (isZeroLength(feelingDownDepressed)) {
 			setFeelingDownDepressedErrorMessage(schema.feelingDownDepressed.message);
+			return false;
 		} else {
 			setFeelingDownDepressedErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateLikeOrganizeParty = () => {
+	const validateLikeOrganizeParty: () => boolean = () => {
 		if (isZeroLength(likeOrganizeParty)) {
 			setLikeOrganizePartyErrorMessage(schema.likeOrganizeParty.message);
+			return false;
 		} else {
 			setLikeOrganizePartyErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateProneArgument = () => {
+	const validateProneArgument: () => boolean = () => {
 		if (isZeroLength(proneArgument)) {
 			setProneArgumentErrorMessage(schema.proneArgument.message);
+			return false;
 		} else {
 			setProneArgumentErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateLikePhilosophicalSpiritual = () => {
+	const validateLikePhilosophicalSpiritual: () => boolean = () => {
 		if (isZeroLength(likePhilosophicalSpiritual)) {
 			setLikePhilosophicalSpiritualErrorMessage(schema.likePhilosophicalSpiritual.message);
+			return false;
 		} else {
 			setLikePhilosophicalSpiritualErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateDislikeOrganizingThoughts = () => {
+	const validateDislikeOrganizingThoughts: () => boolean = () => {
 		if (isZeroLength(dislikeOrganizingThoughts)) {
 			setDislikeOrganizingThoughtsErrorMessage(schema.dislikeOrganizingThoughts.message);
+			return false;
 		} else {
 			setDislikeOrganizingThoughtsErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateFeelingStressedOrAnxious = () => {
+	const validateFeelingStressedOrAnxious: () => boolean = () => {
 		if (isZeroLength(feelingStressedOrAnxious)) {
 			setFeelingStressedOrAnxiousErrorMessage(schema.feelingStressedOrAnxious.message);
+			return false;
 		} else {
 			setFeelingStressedOrAnxiousErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateOftenUseDifficultWord = () => {
+	const validateOftenUseDifficultWord: () => boolean = () => {
 		if (isZeroLength(oftenUseDifficultWord)) {
 			setOftenUseDifficultWordErrorMessage(schema.oftenUseDifficultWord.message);
+			return false;
 		} else {
 			setOftenUseDifficultWordErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateConsiderPrioritizeOthers = () => {
+	const validateConsiderPrioritizeOthers: () => boolean = () => {
 		if (isZeroLength(considerPrioritizeOthers)) {
 			setConsiderPrioritizeOthersErrorMessage(schema.considerPrioritizeOthers.message);
+			return false;
 		} else {
 			setConsiderPrioritizeOthersErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateContributeMoreTeamMoreOthers = () => {
+	const validateContributeMoreTeamMoreOthers: () => boolean = () => {
 		if (isZeroLength(contributeMoreTeamMoreOthers)) {
 			setContributeMoreTeamMoreOthersErrorMessage(schema.contributeMoreTeamMoreOthers.message);
+			return false;
 		} else {
 			setContributeMoreTeamMoreOthersErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateSatisfiCurrentJobAndSituation = () => {
+	const validateSatisfiCurrentJobAndSituation: () => boolean = () => {
 		if (isZeroLength(satisfiCurrentJobAndSituation)) {
 			setSatisfiCurrentJobAndSituationErrorMessage(schema.satisfiCurrentJobAndSituation.message);
+			return false;
 		} else {
 			setSatisfiCurrentJobAndSituationErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateGender = () => {
+	const validateGender: () => boolean = () => {
 		if (isZeroLength(gender)) {
 			setGenderErrorMessage(schema.gender.message);
+			return false;
 		} else {
 			setGenderErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateWhatBest = () => {
+	const validateWhatBest: () => boolean = () => {
 		if (isZeroLength(whatBest)) {
 			setWhatBestErrorMessage(schema.whatBest.message);
+			return false;
 		} else {
 			setWhatBestErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateWhatHurt = () => {
+	const validateWhatHurt: () => boolean = () => {
 		if (isZeroLength(whatBest)) {
 			setWhatHurtErrorMessage(schema.wharHurt.message);
+			return false;
 		} else {
 			setWhatHurtErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateWhatRewardingInPast = () => {
+	const validateWhatRewardingInPast: () => boolean = () => {
 		if (isZeroLength(whatBest)) {
 			setWhatRewardingInPastErrorMessage(schema.whatRewardingInPast.message);
+			return false;
 		} else {
 			setWhatRewardingInPastErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
-	const validateImagineAchieveGoal = () => {
+	const validateImagineAchieveGoal: () => boolean = () => {
 		if (isZeroLength(imagineAchieveGoal)) {
 			setImagineAchieveGoalErrorMessage(schema.imagineAchieveGoal.message);
+			return false;
 		} else {
 			setImagineAchieveGoalErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateFocusPreventingBadThings = () => {
+	const validateFocusPreventingBadThings: () => boolean = () => {
 		if (isZeroLength(focusPreventingBadThings)) {
 			setFocusPreventingBadThingsErrorMessage(schema.focusPreventingBadThings.message);
+			return false;
 		} else {
 			setFocusPreventingBadThingsErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateFocusAccomplishInFuture = () => {
+	const validateFocusAccomplishInFuture: () => boolean = () => {
 		if (isZeroLength(focusAccomplishInFuture)) {
 			setFocusAccomplishInFutureErrorMessage(schema.focusAccomplishInFuture.message);
+			return false;
 		} else {
 			setFocusAccomplishInFutureErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateThinkPreventFailure = () => {
+	const validateThinkPreventFailure: () => boolean = () => {
 		if (isZeroLength(thinkPreventFailure)) {
 			setThinkPreventFailureErrorMessage(schema.thinkPreventFailure.message);
+			return false;
 		} else {
 			setThinkPreventFailureErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateThinkMyTypeIsEffortToDream = () => {
+	const validateThinkMyTypeIsEffortToDream: () => boolean = () => {
 		if (isZeroLength(thinkMyTypeIsEffortToDream)) {
 			setThinkMyTypeIsEffortToDreamErrorMessage(schema.thinkMyTypeIsEffortToDream.message);
+			return false;
 		} else {
 			setThinkMyTypeIsEffortToDreamErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateWorryDoNotResponsibilitiesRole = () => {
+	const validateWorryDoNotResponsibilitiesRole: () => boolean = () => {
 		if (isZeroLength(worryDoNotResponsibilitiesRole)) {
 			setWorryDoNotResponsibilitiesRoleErrorMessage(schema.worryDoNotResponsibilitiesRole.message);
+			return false;
 		} else {
 			setWorryDoNotResponsibilitiesRoleErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateImagineBadThingsToMe = () => {
+	const validateImagineBadThingsToMe: () => boolean = () => {
 		if (isZeroLength(imagineBadThingsToMe)) {
 			setImagineBadThingsToMeErrorMessage(schema.imagineBadThingsToMe.message);
+			return false;
 		} else {
 			setImagineBadThingsToMeErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateFocusAchieveGoodResult = () => {
+	const validateFocusAchieveGoodResult: () => boolean = () => {
 		if (isZeroLength(focusAchieveGoodResult)) {
 			setFocusAchieveGoodResultErrorMessage(schema.focusAchieveGoodResult.message);
+			return false;
 		} else {
 			setFocusAchieveGoodResultErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateAimAchieveDream = () => {
+	const validateAimAchieveDream: () => boolean = () => {
 		if (isZeroLength(aimAchieveDream)) {
 			setAimAchieveDreamErrorMessage(schema.aimAchieveDream.message);
+			return false;
 		} else {
 			setAimAchieveDreamErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateThinkAchieveGoodResult = () => {
+	const validateThinkAchieveGoodResult: () => boolean = () => {
 		if (isZeroLength(thinkAchieveGoodResult)) {
 			setThinkAchieveGoodResultErrorMessage(schema.thinkAchieveGoodResult.message);
+			return false;
 		} else {
 			setThinkAchieveGoodResultErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateThinkKindOfPersonInFuture = () => {
+	const validateThinkKindOfPersonInFuture: () => boolean = () => {
 		if (isZeroLength(thinkKindOfPersonInFuture)) {
 			setThinkKindOfPersonInFutureErrorMessage(schema.thinkKindOfPersonInFuture.message);
+			return false;
 		} else {
 			setThinkKindOfPersonInFutureErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateWorryWillNotAchieveNumericalGoal = () => {
+	const validateWorryWillNotAchieveNumericalGoal: () => boolean = () => {
 		if (isZeroLength(worryWillNotAchieveNumericalGoal)) {
 			setWorryWillNotAchieveNumericalGoalErrorMessage(
 				schema.worryWillNotAchieveNumericalGoal.message
 			);
+			return false;
 		} else {
 			setWorryWillNotAchieveNumericalGoalErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateImagineWishesComingTrue = () => {
+	const validateImagineWishesComingTrue: () => boolean = () => {
 		if (isZeroLength(imagineWishesComingTrue)) {
 			setImagineWishesCominTrueErrorMessage(schema.imagineWishesComingTrue.message);
+			return false;
 		} else {
 			setImagineWishesCominTrueErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateFocusAvoidingFailure = () => {
+	const validateFocusAvoidingFailure: () => boolean = () => {
 		if (isZeroLength(focusAvoidingFailure)) {
 			setFocusAvoidingFailureErrorMessage(schema.focusAvoidingFailure.message);
+			return false;
 		} else {
 			setFocusAvoidingFailureErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateThinkKindOfPersonHateBecomeInFuture = () => {
+	const validateThinkKindOfPersonHateBecomeInFuture: () => boolean = () => {
 		if (isZeroLength(thinkKindOfPersonHateBecomeInFuture)) {
 			setThinkKindOfPersonHateBecomeInFutureErrorMessage(
 				schema.thinkKindOfPersonHateBecomeInFuture.message
 			);
+			return false;
 		} else {
 			setThinkKindOfPersonHateBecomeInFutureErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
-	const validateThinkImportantGainsThanAvoidingLosses = () => {
+	const validateThinkImportantGainsThanAvoidingLosses: () => boolean = () => {
 		if (isZeroLength(thinkImportantGainsThanAvoidingLosses)) {
 			setThinkImportantGainsThanAvoidingLossesErrorMessage(
 				schema.thinkImportantGainsThanAvoidingLosses.message
 			);
+			return false;
 		} else {
 			setThinkImportantGainsThanAvoidingLossesErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 
