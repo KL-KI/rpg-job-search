@@ -257,75 +257,101 @@ const Diagnosis = () => {
 	] = useState(schema.emptyErrorMessage);
 	/*FIFTH SECTION END*/
 
-	const getIsAllAnswered = (checkStr: string) => {};
-
-	// LOG FORM DATA
-	console.log(
-		{
-			email,
-			nameKanji,
-			nameKatakana,
-			answerer,
-		},
-		{
-			organization,
-			organizationIndustry,
-			department,
-			jobType,
-			employmentStatus,
-			passedYear,
-			employeeId,
-		},
-		{
-			applyOrganization,
-			applyOrganizationIndustry,
-			applyJobType,
-			applyEmploymentStatus,
-			phoneNumber,
-		},
-		{
-			canTalkStranger,
-			carePeopleComfortable,
-			doCreativeActivity,
-			prepareAdvance,
-			feelingDownDepressed,
-			likeOrganizeParty,
-			proneArgument,
-			likePhilosophicalSpiritual,
-			dislikeOrganizingThoughts,
-			feelingStressedOrAnxious,
-			oftenUseDifficultWord,
-			considerPrioritizeOthers,
-			contributeMoreTeamMoreOthers,
-			satisfiCurrentJobAndSituation,
-			gender,
-			birthYear,
-			birthMonth,
-			birthDay,
-			address,
-		},
-		{
-			whatBest,
-			whatHurt,
-			whatRewardingInPast,
-			imagineAchieveGoal,
-			focusPreventingBadThings,
-			focusAccomplishInFuture,
-			thinkPreventFailure,
-			thinkMyTypeIsEffortToDream,
-			worryDoNotResponsibilitiesRole,
-			imagineBadThingsToMe,
-			focusAchieveGoodResult,
-			aimAchieveDream,
-			thinkAchieveGoodResult,
-			thinkKindOfPersonInFuture,
-			worryWillNotAchieveNumericalGoal,
-			imagineWishesComingTrue,
-			focusAvoidingFailure,
-			thinkKindOfPersonHateBecomeInFuture,
-			thinkImportantGainsThanAvoidingLosses,
+	const isSuccessFirst: () => boolean = () => {
+		if (
+			validateEmail() &&
+			validateNameKanji() &&
+			validateNameKatakana() &&
+			validateBackground(answerer)
+		) {
+			return true;
+		} else {
+			return false;
 		}
-	);
+	};
+	const isSuccessSecond: () => boolean = () => {
+		if (validateOrganization() && validateDepartment()) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+	const isSuccessThird: () => boolean = () => {
+		if (validateApplyOrganization() && validatePhoneNumber()) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+	const isSuccessFourth: () => boolean = () => {
+		if (
+			validateCanTalkStranger() &&
+			validateCarePeopleComfortable() &&
+			validateDoCreativeActivity() &&
+			validatePrepareAdvance() &&
+			validateFeelingDownDepressed() &&
+			validateLikeOrganizeParty() &&
+			validateProneArgument() &&
+			validateLikePhilosophicalSpiritual() &&
+			validateDislikeOrganizingThoughts() &&
+			validateFeelingStressedOrAnxious() &&
+			validateOftenUseDifficultWord() &&
+			validateConsiderPrioritizeOthers() &&
+			validateContributeMoreTeamMoreOthers() &&
+			validateSatisfiCurrentJobAndSituation() &&
+			validateGender()
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	const isSuccessFifth: () => boolean = () => {
+		if (
+			validateWhatBest() &&
+			validateWhatHurt() &&
+			validateWhatRewardingInPast() &&
+			validateImagineAchieveGoal() &&
+			validateFocusPreventingBadThings() &&
+			validateFocusAccomplishInFuture() &&
+			validateThinkPreventFailure() &&
+			validateThinkMyTypeIsEffortToDream() &&
+			validateWorryDoNotResponsibilitiesRole() &&
+			validateImagineBadThingsToMe() &&
+			validateFocusAchieveGoodResult() &&
+			validateAimAchieveDream() &&
+			validateThinkAchieveGoodResult() &&
+			validateThinkKindOfPersonInFuture() &&
+			validateWorryWillNotAchieveNumericalGoal() &&
+			validateImagineWishesComingTrue() &&
+			validateFocusAvoidingFailure() &&
+			validateThinkKindOfPersonHateBecomeInFuture() &&
+			validateThinkImportantGainsThanAvoidingLosses()
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
+	const isAllAnswered: (answerer: string) => boolean = (answerer: string) => {
+		// どれか一つでも入力がされていなければ早期リターン
+		if (!isSuccessFirst() || !isSuccessFourth() || !isSuccessFifth()) return false;
+
+		if (answerer === ANSWER_AS_STUFF) {
+			if (isSuccessSecond()) {
+				return true;
+			}
+		} else if (answerer === ANSWER_AS_RECRUIT) {
+			if (isSuccessThird()) {
+				return true;
+			}
+		} else {
+			return true;
+		}
+		return false;
+	};
 
 	/**
 	 * @param {string} str チェックする文字列
@@ -340,10 +366,22 @@ const Diagnosis = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		isAllAnswered(answerer);
+		/*FIRST START*/
 		validateEmail();
 		validateNameKanji();
 		validateNameKatakana();
 		validateBackground(answerer);
+		/*FIRST END*/
+		/*SECOND START*/
+		validateOrganization();
+		validateDepartment();
+		/*SECOND END*/
+		/*THIRD START*/
+		validateApplyOrganization();
+		validatePhoneNumber();
+		/*THIRD END*/
+		/*FOURTH START*/
 		validateCanTalkStranger();
 		validateCarePeopleComfortable();
 		validateDoCreativeActivity();
@@ -359,6 +397,8 @@ const Diagnosis = () => {
 		validateContributeMoreTeamMoreOthers();
 		validateSatisfiCurrentJobAndSituation();
 		validateGender();
+		/*FOURTH END*/
+		/*FIFTH START*/
 		validateWhatBest();
 		validateWhatHurt();
 		validateWhatRewardingInPast();
@@ -378,14 +418,17 @@ const Diagnosis = () => {
 		validateFocusAvoidingFailure();
 		validateThinkKindOfPersonHateBecomeInFuture();
 		validateThinkImportantGainsThanAvoidingLosses();
+		/*FIFTH END*/
 	};
 
-	const validateEmail = () => {
+	const validateEmail: () => boolean = () => {
 		// const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 		if (email.length < schema.email.min.value) {
 			setEmailErrorMessage(schema.email.min.message);
+			return false;
 		} else {
 			setEmailErrorMessage(schema.emptyErrorMessage);
+			return true;
 		}
 	};
 	const validateNameKanji: () => boolean = () => {
