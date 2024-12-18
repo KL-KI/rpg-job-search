@@ -1,11 +1,7 @@
 import Email from "@/app/_components/_top/_Diagnosis/_Form/FirstSection/Email";
-// import Name from "@/app/_components/_top/_Diagnosis/_Form/FirstSection/Name";
-// import Furigana from "@/app/_components/_top/_Diagnosis/_Form/FirstSection/Furigana";
-// import WhoIsAnswer from "@/app/_components/_top/_Diagnosis/_Form/FirstSection/WhoIsAnswer";
-
-import { Schema } from "@/app/_components/_top/_Diagnosis/Diagnosis";
-
-import { useContext } from "react";
+import Name from "@/app/_components/_top/_Diagnosis/_Form/FirstSection/Name";
+import Furigana from "@/app/_components/_top/_Diagnosis/_Form/FirstSection/Furigana";
+import WhoIsAnswer from "@/app/_components/_top/_Diagnosis/_Form/FirstSection/WhoIsAnswer";
 
 import { Dispatch, SetStateAction } from "react";
 
@@ -13,27 +9,37 @@ interface Props {
 	answerer: string;
 	setAnswerer: Dispatch<SetStateAction<string>>;
 	setFunctions: Dispatch<SetStateAction<string>>[];
+	errorMessages: string[];
 }
-const FirstSectionForm = ({ setFunctions }: Props) => {
-	// const FirstSectionForm = ({ answerer, setAnswerer, setFunctions }: Props) => {
-	// const [setEmail, setNameKanji, setNameKatakana, setBackground] = setFunctions;
-	const [setEmail] = setFunctions;
 
-	const { email } = useContext(Schema)!;
+const FirstSectionForm = ({ answerer, setAnswerer, setFunctions, errorMessages }: Props) => {
+	const [setEmail, setNameKanji, setNameKatakana] = setFunctions;
+	const [
+		emailErrorMessage,
+		nameKanjiErrorMessage,
+		nameKatakanaErrorMessage,
+		backgroundErrorMessage,
+	] = errorMessages;
 
 	return (
 		<>
 			<Email
 				setEmail={setEmail}
-				schema={email}
+				errorMessage={emailErrorMessage}
 			/>
-			{/* <Name setNameKanji={setNameKanji} />
-			<Furigana setNameKatakana={setNameKatakana} />
+			<Name
+				setFunction={setNameKanji}
+				errorMessage={nameKanjiErrorMessage}
+			/>
+			<Furigana
+				setFunction={setNameKatakana}
+				errorMessage={nameKatakanaErrorMessage}
+			/>
 			<WhoIsAnswer
 				answerer={answerer}
-				setBackground={setBackground}
 				setAnswerer={setAnswerer}
-			/> */}
+				errorMessage={backgroundErrorMessage}
+			/>
 		</>
 	);
 };

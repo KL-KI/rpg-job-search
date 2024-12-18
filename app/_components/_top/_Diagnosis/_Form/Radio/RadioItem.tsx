@@ -1,9 +1,15 @@
+import ErrorMessage from "@/app/_components/_top/_Diagnosis/_Form/ErrorMessage";
 import FormItemSpacer from "@/app/_components/_top/_Diagnosis/_Form/FormItemSpacer";
 import Label from "@/app/_components/_top/_Diagnosis/_Form/Label";
 import RadioLabel from "@/app/_components/_top/_Diagnosis/_Form/Radio/RadioLabel";
 import RadioSpacer from "@/app/_components/_top/_Diagnosis/_Form/Radio/RadioSpacer";
 
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+
 interface Props {
+	htmlFor: string;
+	setFunction: Dispatch<SetStateAction<string>>;
+	errorMessage: string;
 	label: string;
 	name: string;
 	radios: {
@@ -12,7 +18,10 @@ interface Props {
 	};
 }
 
-const RadioItem = ({ label, radios, name }: Props) => {
+const RadioItem = ({ label, radios, name, htmlFor, setFunction, errorMessage }: Props) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		setFunction(e.target.value);
+	};
 	return (
 		<FormItemSpacer>
 			<Label>{label}</Label>
@@ -25,14 +34,17 @@ const RadioItem = ({ label, radios, name }: Props) => {
 						>
 							<input
 								type='radio'
+								id={`${htmlFor}-${i}`}
 								value={radios.value[i]}
 								name={name}
+								onChange={handleChange}
 							/>
-							<RadioLabel>{label[i]}</RadioLabel>
+							<RadioLabel htmlFor={`${htmlFor}-${i}`}>{label[i]}</RadioLabel>
 						</div>
 					);
 				})}
 			</RadioSpacer>
+			{errorMessage ? <ErrorMessage errorMessage={errorMessage} /> : <></>}
 		</FormItemSpacer>
 	);
 };
