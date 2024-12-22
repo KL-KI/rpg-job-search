@@ -22,6 +22,7 @@ const PersonalityType = ({
 				setFunctions={setFunctionsFirst}
 				errorMessages={errorMessagesFirst}
 			/>
+			<p className='text-center my-4'>あと少しで診断完了です！</p>
 			<PersonalitySecond
 				setFunctions={setFunctionsSecond}
 				errorMessages={errorMessagesSecond}

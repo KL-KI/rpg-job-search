@@ -1,4 +1,12 @@
 import { useState, useEffect, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+/**
+ * @date 2024/12/18
+ * @todo 全てのバリデーションチェック完了。
+ * 入力されたデータをクエリとして渡し、それを結果ページで受け取る - useSearchParams
+ * handleSubmit内でuseRouter.push(結果ページ)にする。
+ * ちゃんとuseRouter.push()でクエリにデータを渡せるようにする。
+ * **/
 
 import InHouse from "@/app/_components/_top/_Diagnosis/_Form/InHouse/InHouse";
 import Applicants from "@/app/_components/_top/_Diagnosis/_Form/Applicants/Applicants";
@@ -6,23 +14,31 @@ import FirstSectionForm from "@/app/_components/_top/_Diagnosis/_Form/FirstSecti
 import MovingPattern from "@/app/_components/_top/_Diagnosis/_Form/MovingPattern/MovingPattern";
 import PersonalityType from "@/app/_components/_top/_Diagnosis/_Form/PersonalityType/PersonalityType";
 
-import { schema } from "@/app/data/formSchema";
+import { inputNames, schema } from "@/app/data/formSchema";
 
 const Diagnosis = () => {
+	const router = useRouter();
+
 	const ANSWER_AS_STUFF = "社員・職員として解答（社内向けアンケート）";
 	const ANSWER_AS_RECRUIT = "採用選考への応募者として解答（適性検査）";
 
 	const [isSecondMount, setIsSecondMount] = useState(false);
 
 	/*FIRST SECTION START*/
-	const [email, setEmail] = useState(schema.email.defaultValue);
-	const [emailErrorMessage, setEmailErrorMessage] = useState(schema.emptyErrorMessage);
 	const [nameKanji, setNameKanji] = useState(schema.nameKanji.defaultValue);
 	const [nameKanjiErrorMessage, setNameKanjiErrorMessage] = useState(schema.emptyErrorMessage);
 	const [nameKatakana, setNameKatakana] = useState(schema.nameKatakana.defaultValue);
 	const [nameKatakanaErrorMessage, setNameKatakanaErrorMessage] = useState(
 		schema.emptyErrorMessage
 	);
+	const [gender, setGender] = useState(schema.gender.defaultValue);
+	const [genderErrorMessage, setGenderErrorMessage] = useState(schema.emptyErrorMessage);
+	const [birthYear, setBirthYear] = useState(schema.birthYear.defaultValue);
+	const [birthMonth, setBirthMonth] = useState(schema.birthMonth.defaultValue);
+	const [birthDay, setBirthDay] = useState(schema.birthDay.defaultValue);
+	const [address, setAddress] = useState(schema.address.defaultValue);
+	const [email, setEmail] = useState(schema.email.defaultValue);
+	const [emailErrorMessage, setEmailErrorMessage] = useState(schema.emptyErrorMessage);
 	const [answerer, setAnswerer] = useState("");
 	const [answererErrorMessage, setAnswererErrorMessage] = useState(schema.emptyErrorMessage);
 	/*FIRST SECTION END*/
@@ -127,12 +143,6 @@ const Diagnosis = () => {
 	);
 	const [satisfiCurrentJobAndSituationErrorMessage, setSatisfiCurrentJobAndSituationErrorMessage] =
 		useState(schema.emptyErrorMessage);
-	const [gender, setGender] = useState(schema.gender.defaultValue);
-	const [genderErrorMessage, setGenderErrorMessage] = useState(schema.emptyErrorMessage);
-	const [birthYear, setBirthYear] = useState(schema.birthYear.defaultValue);
-	const [birthMonth, setBirthMonth] = useState(schema.birthMonth.defaultValue);
-	const [birthDay, setBirthDay] = useState(schema.birthDay.defaultValue);
-	const [address, setAddress] = useState(schema.address.defaultValue);
 	/*FOURTH SECTION END*/
 	/*FIFTH SECTION START*/
 	const [whatBest, setWhatBest] = useState(schema.whatBest.defaultValue);
@@ -257,6 +267,69 @@ const Diagnosis = () => {
 	] = useState(schema.emptyErrorMessage);
 	/*FIFTH SECTION END*/
 
+	/**
+	 * @description 全ての状態変数をログに流す関数。
+	 * **/
+	const logAllData = () => {
+		console.log({
+			nameKanji,
+			nameKatakana,
+			gender,
+			birthYear,
+			birthMonth,
+			birthDay,
+			address,
+			email,
+			answerer,
+			organization,
+			organizationIndustry,
+			department,
+			jobType,
+			employmentStatus,
+			passedYear,
+			employeeId,
+			applyOrganization,
+			applyOrganizationIndustry,
+			applyJobType,
+			applyEmploymentStatus,
+			phoneNumber,
+			canTalkStranger,
+			carePeopleComfortable,
+			doCreativeActivity,
+			prepareAdvance,
+			feelingDownDepressed,
+			likeOrganizeParty,
+			proneArgument,
+			likePhilosophicalSpiritual,
+			dislikeOrganizingThoughts,
+			feelingStressedOrAnxious,
+			oftenUseDifficultWord,
+			considerPrioritizeOthers,
+			contributeMoreTeamMoreOthers,
+			satisfiCurrentJobAndSituation,
+			whatBest,
+			whatHurt,
+			whatRewardingInPast,
+			imagineAchieveGoal,
+			focusPreventingBadThings,
+			focusAccomplishInFuture,
+			thinkPreventFailure,
+			thinkMyTypeIsEffortToDream,
+			worryDoNotResponsibilitiesRole,
+			imagineBadThingsToMe,
+			focusAchieveGoodResult,
+			aimAchieveDream,
+			thinkAchieveGoodResult,
+			thinkKindOfPersonInFuture,
+			worryWillNotAchieveNumericalGoal,
+			imagineWishesComingTrue,
+			focusAvoidingFailure,
+			thinkKindOfPersonHateBecomeInFuture,
+			thinkImportantGainsThanAvoidingLosses,
+		});
+	};
+	logAllData();
+
 	const isSuccessFirst: () => boolean = () => {
 		if (
 			validateEmail() &&
@@ -283,6 +356,7 @@ const Diagnosis = () => {
 			return false;
 		}
 	};
+
 	const isSuccessFourth: () => boolean = () => {
 		if (
 			validateCanTalkStranger() &&
@@ -366,59 +440,81 @@ const Diagnosis = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		isAllAnswered(answerer);
-		/*FIRST START*/
-		validateEmail();
-		validateNameKanji();
-		validateNameKatakana();
-		validateBackground(answerer);
-		/*FIRST END*/
-		/*SECOND START*/
-		validateOrganization();
-		validateDepartment();
-		/*SECOND END*/
-		/*THIRD START*/
-		validateApplyOrganization();
-		validatePhoneNumber();
-		/*THIRD END*/
-		/*FOURTH START*/
-		validateCanTalkStranger();
-		validateCarePeopleComfortable();
-		validateDoCreativeActivity();
-		validatePrepareAdvance();
-		validateFeelingDownDepressed();
-		validateLikeOrganizeParty();
-		validateProneArgument();
-		validateLikePhilosophicalSpiritual();
-		validateDislikeOrganizingThoughts();
-		validateFeelingStressedOrAnxious();
-		validateOftenUseDifficultWord();
-		validateConsiderPrioritizeOthers();
-		validateContributeMoreTeamMoreOthers();
-		validateSatisfiCurrentJobAndSituation();
-		validateGender();
-		/*FOURTH END*/
-		/*FIFTH START*/
-		validateWhatBest();
-		validateWhatHurt();
-		validateWhatRewardingInPast();
-		validateImagineAchieveGoal();
-		validateFocusPreventingBadThings();
-		validateFocusAccomplishInFuture();
-		validateThinkPreventFailure();
-		validateThinkMyTypeIsEffortToDream();
-		validateWorryDoNotResponsibilitiesRole();
-		validateImagineBadThingsToMe();
-		validateFocusAchieveGoodResult();
-		validateAimAchieveDream();
-		validateThinkAchieveGoodResult();
-		validateThinkKindOfPersonInFuture();
-		validateWorryWillNotAchieveNumericalGoal();
-		validateImagineWishesComingTrue();
-		validateFocusAvoidingFailure();
-		validateThinkKindOfPersonHateBecomeInFuture();
-		validateThinkImportantGainsThanAvoidingLosses();
-		/*FIFTH END*/
+		if (!isAllAnswered(answerer)) {
+			/*FIRST START*/
+			validateEmail();
+			validateNameKanji();
+			validateNameKatakana();
+			validateBackground(answerer);
+			/*FIRST END*/
+			/*SECOND START*/
+			validateOrganization();
+			validateDepartment();
+			/*SECOND END*/
+			/*THIRD START*/
+			validateApplyOrganization();
+			validatePhoneNumber();
+			/*THIRD END*/
+			/*FOURTH START*/
+			validateCanTalkStranger();
+			validateCarePeopleComfortable();
+			validateDoCreativeActivity();
+			validatePrepareAdvance();
+			validateFeelingDownDepressed();
+			validateLikeOrganizeParty();
+			validateProneArgument();
+			validateLikePhilosophicalSpiritual();
+			validateDislikeOrganizingThoughts();
+			validateFeelingStressedOrAnxious();
+			validateOftenUseDifficultWord();
+			validateConsiderPrioritizeOthers();
+			validateContributeMoreTeamMoreOthers();
+			validateSatisfiCurrentJobAndSituation();
+			validateGender();
+			/*FOURTH END*/
+			/*FIFTH START*/
+			validateWhatBest();
+			validateWhatHurt();
+			validateWhatRewardingInPast();
+			validateImagineAchieveGoal();
+			validateFocusPreventingBadThings();
+			validateFocusAccomplishInFuture();
+			validateThinkPreventFailure();
+			validateThinkMyTypeIsEffortToDream();
+			validateWorryDoNotResponsibilitiesRole();
+			validateImagineBadThingsToMe();
+			validateFocusAchieveGoodResult();
+			validateAimAchieveDream();
+			validateThinkAchieveGoodResult();
+			validateThinkKindOfPersonInFuture();
+			validateWorryWillNotAchieveNumericalGoal();
+			validateImagineWishesComingTrue();
+			validateFocusAvoidingFailure();
+			validateThinkKindOfPersonHateBecomeInFuture();
+			validateThinkImportantGainsThanAvoidingLosses();
+			/*FIFTH END*/
+		} else {
+			const firstSectionQuery = `${inputNames.gender}=${gender}`;
+			// const secondSectionQuery = `${inputNames.organization}=${organization}&${inputNames.organizationIndustry}=${organizationIndustry}&${inputNames.department}=${department}&${inputNames.jobType}=${jobType}&${inputNames.employmentStatus}=${employmentStatus}&${inputNames.passedYear}=${passedYear}&${employeeId}=${employeeId}`;
+			// const thirdSectionQuery = `${inputNames.applyOrganization}=${applyOrganization}&${inputNames.applyOrganizationIndustry}=${applyOrganizationIndustry}&${inputNames.applyJobType}=${applyJobType}&${inputNames.applyEmploymentStatus}=${applyEmploymentStatus}&${inputNames.phoneNumber}=${phoneNumber}`;
+			const fourthSectionQuery = `${inputNames.canTalkStranger}=${canTalkStranger}&${inputNames.carePeopleComfortable}=${carePeopleComfortable}&${inputNames.doCreativeActivity}=${doCreativeActivity}&${inputNames.prepareAdvance}=${prepareAdvance}&${inputNames.feelingDownDepressed}=${feelingDownDepressed}&${inputNames.likeOrganizeParty}=${likeOrganizeParty}&${inputNames.proneArgument}=${proneArgument}&${inputNames.likePhilosophicalSpiritual}=${likePhilosophicalSpiritual}&${inputNames.dislikeOrganizingThoughts}=${dislikeOrganizingThoughts}&${inputNames.feelingStressedOrAnxious}=${feelingStressedOrAnxious}&${inputNames.oftenUseDifficultWord}=${oftenUseDifficultWord}&${inputNames.considerPrioritizeOthers}=${considerPrioritizeOthers}&${inputNames.contributeMoreTeamMoreOthers}=${contributeMoreTeamMoreOthers}&${inputNames.satisfiCurrentJobAndSituation}=${satisfiCurrentJobAndSituation}`;
+			const fifthFirstSectionQuery = `${inputNames.whatBest}=${whatBest}&${inputNames.wharHurt}=${whatHurt}&${inputNames.whatRewardingInPast}=${whatRewardingInPast}`;
+			const fifthSecondSectionQuery = `${inputNames.imagineAchieveGoal}=${imagineAchieveGoal}&${inputNames.focusPreventingBadThings}=${focusPreventingBadThings}&${inputNames.focusAccomplishInFuture}=${focusAccomplishInFuture}&${inputNames.thinkPreventFailure}=${thinkPreventFailure}&${inputNames.thinkMyTypeIsEffortToDream}=${thinkMyTypeIsEffortToDream}&${inputNames.worryDoNotResponsibilitiesRole}=${worryDoNotResponsibilitiesRole}&${inputNames.imagineBadThingsToMe}=${imagineBadThingsToMe}&${inputNames.focusAchieveGoodResult}=${focusAchieveGoodResult}&${inputNames.aimAchieveDream}=${aimAchieveDream}&${inputNames.thinkAchieveGoodResult}=${thinkAchieveGoodResult}&${inputNames.thinkKindOfPersonInFuture}=${thinkKindOfPersonInFuture}&${inputNames.worryWillNotAchieveNumericalGoal}=${worryWillNotAchieveNumericalGoal}&${inputNames.imagineWishesComingTrue}=${imagineWishesComingTrue}&${inputNames.focusAvoidingFailure}=${focusAvoidingFailure}&${inputNames.thinkKindOfPersonHateBecomeInFuture}=${thinkKindOfPersonHateBecomeInFuture}&${inputNames.thinkImportantGainsThanAvoidingLosses}=${thinkImportantGainsThanAvoidingLosses}`;
+			if (answerer === ANSWER_AS_STUFF) {
+				router.push(
+					`/result?${firstSectionQuery}&${fourthSectionQuery}&${fifthFirstSectionQuery}&${fifthSecondSectionQuery}`
+				);
+				return;
+			} else if (answerer === ANSWER_AS_RECRUIT) {
+				router.push(
+					`/result?${firstSectionQuery}&${fourthSectionQuery}&${fifthFirstSectionQuery}&${fifthSecondSectionQuery}`
+				);
+				return;
+			}
+			router.push(
+				`/result?${firstSectionQuery}&${fourthSectionQuery}&${fifthFirstSectionQuery}&${fifthSecondSectionQuery}`
+			);
+		}
 	};
 
 	const validateEmail: () => boolean = () => {
@@ -1054,12 +1150,23 @@ const Diagnosis = () => {
 				className='flex flex-col gap-y-4'
 			>
 				<FirstSectionForm
-					setFunctions={[setEmail, setNameKanji, setNameKatakana]}
+					setFunctions={[
+						setEmail,
+						setNameKanji,
+						setNameKatakana,
+						setGender,
+						setBirthYear,
+						setBirthMonth,
+						setBirthDay,
+						setAddress,
+						setAddress,
+					]}
 					errorMessages={[
 						emailErrorMessage,
 						nameKanjiErrorMessage,
 						nameKatakanaErrorMessage,
 						answererErrorMessage,
+						genderErrorMessage,
 					]}
 					answerer={answerer}
 					setAnswerer={setAnswerer}
@@ -1106,11 +1213,6 @@ const Diagnosis = () => {
 						setConsiderPrioritizeOthers,
 						setContributeMoreTeamMoreOthers,
 						setSatisfiCurrentJobAndSituation,
-						setGender,
-						setBirthYear,
-						setBirthMonth,
-						setBirthDay,
-						setAddress,
 					]}
 					errorMessages={[
 						canTalkStrangerErrorMessage,
@@ -1127,14 +1229,7 @@ const Diagnosis = () => {
 						considerPrioritizeOthersErrorMessage,
 						contributeMoreTeamMoreOthersErrorMessage,
 						satisfiCurrentJobAndSituationErrorMessage,
-						genderErrorMessage,
 					]}
-					setGender={setGender}
-					genderErrorMessage={genderErrorMessage}
-					setBirthYear={setBirthYear}
-					setBirthMonth={setBirthMonth}
-					setBirthDay={setBirthDay}
-					setAddress={setAddress}
 				/>
 				<PersonalityType
 					setFunctionsFirst={[setWhatBest, setWhatHurt, setWhatRewardingInPast]}
